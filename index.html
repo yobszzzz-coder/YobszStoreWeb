@@ -1,0 +1,1262 @@
+ <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOBSZ STORE — Produk By Yobsz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        img {
+            pointer-events: none;
+            -webkit-user-drag: none;
+        }
+        .qris-img {
+            pointer-events: auto;
+            -webkit-user-drag: auto;
+        }
+
+        :root {
+            --biru-terang: #0099ff;
+            --biru: #0066ff;
+            --biru-gelap: #0044aa;
+            --biru-sangat-gelap: #002266;
+            --putih: #ffffff;
+            --abu-terang: #e6f0ff;
+            --abu: #88aacc;
+            --hitam: #0a1428;
+            --bayangan: 0 8px 32px rgba(0,102,255,0.15);
+            --bayangan-kuat: 0 12px 48px rgba(0,102,255,0.25);
+            --sukses: #00cc88;
+            --peringatan: #ffaa00;
+            --error: #ff4444;
+            --pending: #ffcc00;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a1428 0%, #0f2a55 50%, #0a1428 100%);
+            min-height: 100vh;
+            color: var(--putih);
+            padding-bottom: 40px;
+        }
+
+        .banner {
+            width: 100%;
+            max-height: 320px;
+            object-fit: cover;
+            display: block;
+        }
+        .logo-container {
+            text-align: center;
+            padding: 24px 16px 12px;
+        }
+        .logo-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid var(--biru-terang);
+            box-shadow: 0 0 0 4px var(--biru), 0 0 30px rgba(0,102,255,0.35);
+            object-fit: cover;
+        }
+        .judul {
+            font-size: 2.4em;
+            font-weight: 800;
+            margin-top: 12px;
+            color: var(--putih);
+            text-shadow: 0 0 10px rgba(0,153,255,0.5);
+        }
+        .subjudul {
+            color: var(--abu-terang);
+            font-size: 1em;
+            margin-top: 4px;
+        }
+
+        .menu-wrapper {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 100;
+        }
+        .menu-toggle {
+            background: linear-gradient(135deg, var(--biru-terang), var(--biru));
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            box-shadow: var(--bayangan);
+            transition: transform 0.2s;
+        }
+        .menu-toggle:hover { transform: scale(1.08); }
+        .menu-toggle span {
+            width: 22px;
+            height: 2px;
+            background: white;
+            border-radius: 1px;
+            transition: 0.2s;
+        }
+        .menu-toggle.buka span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        .menu-toggle.buka span:nth-child(2) { opacity: 0; }
+        .menu-toggle.buka span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 58px;
+            right: 0;
+            min-width: 220px;
+            background: rgba(10,30,70,0.9);
+            border: 1px solid rgba(0,153,255,0.25);
+            border-radius: 12px;
+            box-shadow: var(--bayangan-kuat);
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.25s ease;
+            backdrop-filter: blur(10px);
+        }
+        .menu-dropdown.buka {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .menu-item {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            text-align: left;
+            background: transparent;
+            border: none;
+            color: var(--abu-terang);
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .menu-item:hover {
+            background: rgba(0,153,255,0.15);
+            color: var(--biru-terang);
+        }
+        .menu-item.wa-link {
+            color: #66ff99;
+            text-decoration: none;
+        }
+        .menu-item.wa-link:hover {
+            color: #99ffbb;
+            background: rgba(37,211,102,0.1);
+        }
+        .menu-item.admin-link {
+            color: #ffcc00;
+        }
+        .menu-item.admin-link:hover {
+            color: #ffdd44;
+            background: rgba(255,204,0,0.1);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px 16px;
+        }
+
+        .kategori {
+            background: rgba(0,102,255,0.08);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(0,153,255,0.2);
+            overflow: hidden;
+            box-shadow: var(--bayangan);
+        }
+     .kategori-header {
+     padding: 18px 22px;
+     cursor: pointer;
+     background: linear-gradient(90deg, rgba(0,102,255,0.2), rgba(0,153,255,0.1));
+     transition: background 0.3s;
+ }
+
+        .kategori-header:hover {
+            background: linear-gradient(90deg, rgba(0,102,255,0.3), rgba(0,153,255,0.2));
+        }
+        .kategori-nama {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: var(--biru-terang);
+        }
+       .kategori-isi {
+     max-height: 0;
+     overflow: hidden;
+     transition: max-height 0.4s ease-out, padding 0.3s;
+     padding: 0 22px;
+ }
+ .kategori-isi.buka {
+     max-height: 3000px;
+     padding: 10px 22px 22px;
+ }
+
+        .produk {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(0,153,255,0.15);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .produk:last-child { border-bottom: none; }
+        .produk-info { flex: 1; min-width: 200px; }
+        .produk-nama {
+            font-weight: 500;
+            font-size: 0.98em;
+            line-height: 1.4;
+            color: #e6f0ff;
+        }
+        .produk-tag {
+            display: inline-flex;
+            gap: 6px;
+            margin-left: 8px;
+            flex-wrap: wrap;
+        }
+        .tag {
+            font-size: 0.7em;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        .tag-hot { background: #ff6600; color: white; }
+        .tag-instant { background: #00cc88; color: white; }
+        .tag-premium { background: #00ccff; color: white; }
+        .produk-harga {
+            font-weight: 700;
+            color: #66ccff;
+            font-size: 1.05em;
+            margin: 4px 0;
+        }
+        .btn-order {
+            background: linear-gradient(135deg, var(--biru-terang), var(--biru));
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+        .btn-order:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(0,102,255,0.35);
+        }
+
+        .qris-box {
+            background: rgba(0,102,255,0.08);
+            border-radius: 16px;
+            padding: 28px 24px;
+            text-align: center;
+            margin: 32px 0 20px;
+            border: 1px solid rgba(0,153,255,0.2);
+            box-shadow: var(--bayangan);
+        }
+        .qris-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--biru-terang);
+        }
+        .qris-img-main {
+            width: 240px;
+            border-radius: 12px;
+            border: 3px solid var(--biru-terang);
+            box-shadow: var(--bayangan);
+        }
+        .qris-note {
+            margin-top: 12px;
+            font-size: 0.9em;
+            color: var(--abu);
+            line-height: 1.5;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,20,50,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            padding: 16px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            backdrop-filter: blur(6px);
+        }
+        .modal-overlay.buka {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal {
+            background: rgba(10,30,70,0.9);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 420px;
+            padding: 28px;
+            border: 1px solid rgba(0,153,255,0.3);
+            box-shadow: var(--bayangan-kuat);
+            transform: translateY(20px);
+            transition: transform 0.3s;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-overlay.buka .modal { transform: translateY(0); }
+        .modal-tutup {
+            text-align: right;
+            margin: -8px -8px 8px;
+        }
+        .btn-tutup {
+            background: none;
+            border: none;
+            color: var(--abu);
+            font-size: 1.5em;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .modal-judul {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--biru-terang);
+        }
+
+        .qris-modal-img {
+            width: 260px;
+            border-radius: 12px;
+            border: 3px solid var(--biru-terang);
+            display: block;
+            margin: 0 auto;
+        }
+        .qris-modal-note {
+            text-align: center;
+            margin-top: 16px;
+            color: var(--abu-terang);
+            font-size: 0.9em;
+        }
+
+        .form-group { margin-bottom: 14px; }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.9em;
+            color: #99ccff;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(0,153,255,0.3);
+            background: rgba(0,50,120,0.4);
+            color: white;
+            font-size: 0.95em;
+            outline: none;
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--biru-terang);
+            box-shadow: 0 0 0 3px rgba(0,153,255,0.15);
+        }
+        select option {
+            background: #0a1428;
+            color: white;
+        }
+        .modal-harga {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #66ccff;
+            margin: 8px 0 16px;
+        }
+        .btn-kirim {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(90deg, var(--biru-gelap), var(--biru-terang));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .btn-kirim:hover { opacity: 0.95; }
+        .peringatan {
+            font-size: 0.85em;
+            color: #99ccff;
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+        .peringatan a {
+            color: var(--biru-terang);
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .modal-riwayat, .modal-admin {
+            background: rgba(0, 20, 60, 0.85) !important;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 153, 255, 0.25);
+            max-width: 500px;
+        }
+        .riwayat-item {
+            padding: 16px;
+            margin: 10px 0;
+            background: rgba(0, 102, 255, 0.08);
+            border-radius: 12px;
+            border-left: 3px solid rgba(0, 204, 255, 0.6);
+        }
+        .riwayat-baris {
+            margin: 6px 0;
+            font-size: 0.95em;
+        }
+        .riwayat-label {
+            color: #99ccff;
+            font-weight: 500;
+            display: inline-block;
+            min-width: 70px;
+        }
+        .riwayat-nilai {
+            color: #cce6ff;
+        }
+        .status-pending { color: var(--pending); font-weight: bold; }
+        .status-sukses { color: var(--sukses); font-weight: bold; }
+        .status-gagal { color: var(--error); font-weight: bold; }
+        .status-pilih {
+            padding: 6px 10px;
+            border-radius: 8px;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+        #daftarRiwayat, #daftarAdmin {
+            max-height: 450px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        #daftarRiwayat::-webkit-scrollbar, #daftarAdmin::-webkit-scrollbar { width: 4px; }
+        #daftarRiwayat::-webkit-scrollbar-thumb, #daftarAdmin::-webkit-scrollbar-thumb {
+            background: rgba(0, 153, 255, 0.25);
+            border-radius: 2px;
+        }
+        .btn-logout {
+            background: var(--error);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .btn-logout:hover { opacity: 0.9; }
+
+        .notif {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(10,30,70,0.95);
+            color: white;
+            padding: 14px 24px;
+            border-radius: 12px;
+            border: 1px solid;
+            box-shadow: var(--bayangan-kuat);
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.4s ease;
+            max-width: 90%;
+            text-align: center;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+        .notif.sukses { border-color: var(--sukses); }
+        .notif.peringatan { border-color: var(--peringatan); }
+        .notif.error { border-color: var(--error); }
+        .notif.tampil {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+
+
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+<div class="notif" id="notif"></div>
+
+<div class="menu-wrapper">
+    <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="menu-dropdown" id="menuDropdown">
+        <button class="menu-item" onclick="scrollKeProduk()">📦 Lihat Produk</button>
+        <button class="menu-item" onclick="bukaQRISModal()">💳 Lihat QRIS</button>
+        <button class="menu-item" onclick="bukaRiwayat()">📋 Lihat Riwayat Transaksi</button>
+        <button class="menu-item admin-link" onclick="bukaLoginAdmin()">🔐 Login Admin</button>
+        <a href="https://wa.me/6281314347426" target="_blank" class="menu-item wa-link">💬 Contact Center</a>
+    </div>
+</div>
+
+<img src="banner.jpg" alt="Banner YOBSZ STORE" class="banner" loading="lazy">
+<div class="logo-container">
+    <img src="logo.jpg" alt="Logo YOBSZ STORE" class="logo-img">
+    <h1 class="judul">YOBSZ STORE</h1>
+    <p class="subjudul">Suntik Saluran WA • Followers IG — Aman & Terpercaya ✅</p>
+</div>
+
+<div class="container" id="bagianProduk">
+
+    <div class="kategori">
+        <div class="kategori-header" onclick="toggleKategori(this)">
+            <span class="kategori-nama">📢 Suntik Saluran WhatsApp</span>
+        </div>
+        <div class="kategori-isi">
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK SALURAN 100P</div>
+                    <div class="produk-harga">Rp 1.500</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Suntik Saluran WA 100P', 'Rp 1.500')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK SALURAN 200P</div>
+                    <div class="produk-harga">Rp 1.700</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Suntik Saluran WA 200P', 'Rp 1.700')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK SALURAN 300P</div>
+                    <div class="produk-harga">Rp 2.300</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Suntik Saluran WA 300P', 'Rp 2.300')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK SALURAN 400P</div>
+                    <div class="produk-harga">Rp 2.600</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Suntik Saluran WA 400P', 'Rp 2.600')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK SALURAN 500P</div>
+                    <div class="produk-harga">Rp 3.000</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Suntik Saluran WA 500P', 'Rp 3.000')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK SALURAN 600P</div>
+                    <div class="produk-harga">Rp 3.500</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Suntik Saluran WA 600P', 'Rp 3.500')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK SALURAN 700P</div>
+                    <div class="produk-harga">Rp 3.800</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Suntik Saluran WA 700P', 'Rp 3.800')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK SALURAN 800P</div>
+                    <div class="produk-harga">Rp 4.500</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Suntik Saluran WA 800P', 'Rp 4.500')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK SALURAN 900P</div>
+                    <div class="produk-harga">Rp 5.000</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Suntik Saluran WA 900P', 'Rp 5.000')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK SALURAN 1000P</div>
+                    <div class="produk-harga">Rp 6.000</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Suntik Saluran WA 1000P', 'Rp 6.000')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK SALURAN 2250P</div>
+                    <div class="produk-harga">Rp 11.000</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Suntik Saluran WA 2250P', 'Rp 11.000')">Pesan</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="kategori">
+        <div class="kategori-header" onclick="toggleKategori(this)">
+            <span class="kategori-nama">📷 Suntik Followers Instagram</span>
+        </div>
+        <div class="kategori-isi">
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK FOLLOWER IG 10Fol</div>
+                    <div class="produk-harga">Rp 1.300</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 10Fol', 'Rp 1.300')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK FOLLOWER IG 20Fol</div>
+                    <div class="produk-harga">Rp 1.700</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 20Fol', 'Rp 1.700')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK FOLLOWER IG 30Fol</div>
+                    <div class="produk-harga">Rp 2.000</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 30Fol', 'Rp 2.000')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK FOLLOWER IG 40Fol</div>
+                    <div class="produk-harga">Rp 2.500</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 40Fol', 'Rp 2.500')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK FOLLOWER IG 50Fol</div>
+                    <div class="produk-harga">Rp 2.800</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 50Fol', 'Rp 2.800')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK FOLLOWER IG 60Fol</div>
+                    <div class="produk-harga">Rp 3.300</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 60Fol', 'Rp 3.300')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK FOLLOWER IG 70Fol</div>
+                    <div class="produk-harga">Rp 3.700</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 70Fol', 'Rp 3.700')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK FOLLOWER IG 80Fol</div>
+                    <div class="produk-harga">Rp 4.000</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 80Fol', 'Rp 4.000')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK FOLLOWER IG 90Fol</div>
+                    <div class="produk-harga">Rp 4.500</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 90Fol', 'Rp 4.500')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK FOLLOWER IG 100Fol</div>
+                    <div class="produk-harga">Rp 5.000</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 100Fol', 'Rp 5.000')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">SUNTIK FOLLOWER IG 123Fol</div>
+                    <div class="produk-harga">Rp 5.800</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 123Fol', 'Rp 5.800')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">
+                        SUNTIK FOLLOWER IG 150Fol
+                        <span class="produk-tag"><span class="tag tag-hot">HOT🔥</span><span class="tag tag-instant">INSTANT♻️</span></span>
+                    </div>
+                    <div class="produk-harga">Rp 6.900</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 150Fol', 'Rp 6.900')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">
+                        SUNTIK FOLLOWER IG 200Fol
+                        <span class="produk-tag"><span class="tag tag-hot">HOT🔥</span><span class="tag tag-instant">INSTANT♻️</span></span>
+                    </div>
+                    <div class="produk-harga">Rp 8.900</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 200Fol', 'Rp 8.900')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">
+                        SUNTIK FOLLOWER IG 250Fol
+                        <span class="produk-tag"><span class="tag tag-hot">HOT🔥</span><span class="tag tag-instant">INSTANT♻️</span></span>
+                    </div>
+                    <div class="produk-harga">Rp 10.900</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 250Fol', 'Rp 10.900')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">
+                        SUNTIK FOLLOWER IG 300Fol
+                        <span class="produk-tag"><span class="tag tag-hot">HOT🔥</span><span class="tag tag-instant">INSTANT♻️</span></span>
+                    </div>
+                    <div class="produk-harga">Rp 12.900</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 300Fol', 'Rp 12.900')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">
+                        SUNTIK FOLLOWER IG 350Fol
+                        <span class="produk-tag"><span class="tag tag-hot">HOT🔥</span><span class="tag tag-instant">INSTANT♻️</span></span>
+                    </div>
+                    <div class="produk-harga">Rp 14.900</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 350Fol', 'Rp 14.900')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">
+                        SUNTIK FOLLOWER IG 400Fol
+                        <span class="produk-tag"><span class="tag tag-hot">HOT🔥</span><span class="tag tag-instant">INSTANT♻️</span></span>
+                    </div>
+                    <div class="produk-harga">Rp 16.900</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 400Fol', 'Rp 16.900')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">
+                        SUNTIK FOLLOWER IG 450Fol
+                        <span class="produk-tag"><span class="tag tag-hot">HOT🔥</span><span class="tag tag-instant">INSTANT♻️</span></span>
+                    </div>
+                    <div class="produk-harga">Rp 18.900</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 450Fol', 'Rp 18.900')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">
+                        SUNTIK FOLLOWER IG 500Fol
+                        <span class="produk-tag"><span class="tag tag-hot">HOT🔥</span><span class="tag tag-instant">INSTANT♻️</span></span>
+                    </div>
+                    <div class="produk-harga">Rp 20.900</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 500Fol', 'Rp 20.900')">Pesan</button>
+            </div>
+            <div class="produk">
+                <div class="produk-info">
+                    <div class="produk-nama">
+                        SUNTIK FOLLOWER IG 1000Fol
+                        <span class="produk-tag"><span class="tag tag-hot">HOT🔥</span><span class="tag tag-instant">INSTANT♻️</span><span class="tag tag-premium">PREMIUM💎</span></span>
+                    </div>
+                    <div class="produk-harga">Rp 40.900</div>
+                </div>
+                <button class="btn-order" onclick="bukaForm('Follower IG 1000Fol', 'Rp 40.900')">Pesan</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="kategori">
+    <div class="kategori-header" onclick="toggleKategori(this)">
+        <span class="kategori-nama">📱 APK PREMIUM</span>
+    </div>
+    <div class="kategori-isi">
+        <div class="produk">
+            <div class="produk-info">
+                <div class="produk-nama">APK LOGO</div>
+                <div class="produk-harga">Rp 1.000</div>
+            </div>
+            <button class="btn-order" onclick="bukaForm('APK LOGO', 'Rp 1.000')">Pesan</button>
+        </div>
+        <div class="produk">
+            <div class="produk-info">
+                <div class="produk-nama">APK QRIS ALLPAYMENT</div>
+                <div class="produk-harga">Rp 5.000</div>
+            </div>
+            <button class="btn-order" onclick="bukaForm('APK QRIS ALLPAYMENT', 'Rp 5.000')">Pesan</button>
+        </div>
+        <div class="produk">
+            <div class="produk-info">
+                <div class="produk-nama">APK PANEL FF GACOR</div>
+                <div class="produk-harga">Rp 25.000</div>
+            </div>
+            <button class="btn-order" onclick="bukaForm('APK PANEL FF GACOR', 'Rp 25.000')">Pesan</button>
+        </div>
+    </div>
+</div>
+    
+    <div class="kategori">
+    <div class="kategori-header" onclick="toggleKategori(this)">
+        <span class="kategori-nama">🌐 WEB</span>
+    </div>
+    <div class="kategori-isi">
+        <div class="produk">
+            <div class="produk-info">
+                <div class="produk-nama">WEB SUNTIK ALL SOSMED MURAH</div>
+                <div class="produk-harga">Rp 5.000</div>
+            </div>
+            <button class="btn-order" onclick="bukaForm('WEB SUNTIK ALL SOSMED MURAH', 'Rp 5.000')">Pesan</button>
+        </div>
+        <div class="produk">
+            <div class="produk-info">
+                <div class="produk-nama">WEB SPAM OTP WORK 100%</div>
+                <div class="produk-harga">Rp 7.000</div>
+            </div>
+            <button class="btn-order" onclick="bukaForm('WEB SPAM OTP WORK 100%', 'Rp 7.000')">Pesan</button>
+        </div>
+    </div>
+</div>
+
+
+    <div class="qris-box">
+        <h3 class="qris-title">💳 Bayar Lewat QRIS</h3>
+        <img src="qris.jpg" alt="QRIS YOBSZ STORE" class="qris-img-main">
+        <p class="qris-note">Scan QRIS di atas untuk pembayaran<br>Setelah bayar, kirim bukti ke Admin via Contact Center di menu ☰</p>
+    </div>
+
+</div>
+
+<div class="modal-overlay" id="modalQRIS" onclick="if(event.target===this) tutupQRISModal()">
+    <div class="modal">
+        <div class="modal-tutup">
+            <button class="btn-tutup" onclick="tutupQRISModal()">&times;</button>
+        </div>
+        <h3 class="modal-judul">💳 QRIS Pembayaran</h3>
+        <img src="qris.jpg" alt="QRIS" class="qris-modal-img">
+        <p class="qris-modal-note">Scan QRIS di atas untuk pembayaran<br>Setelah bayar, kirim bukti ke Admin</p>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalForm" onclick="if(event.target===this) tutupForm()">
+    <div class="modal">
+        <div class="modal-tutup">
+            <button class="btn-tutup" onclick="tutupForm()">&times;</button>
+        </div>
+        <h3 class="modal-judul">Form Pemesanan</h3>
+        <div class="form-group">
+            <label>Nama / Username</label>
+            <input type="text" id="inputNama" placeholder="Masukkan nama kamu...">
+        </div>
+        <div class="form-group">
+            <label>Nomor WhatsApp</label>
+            <input type="tel" id="inputNomor" placeholder="Contoh: 0812xxxxxxx">
+        </div>
+        <div class="form-group">
+            <label>Link Akun IG / Saluran WA</label>
+            <input type="url" id="inputLink" 
+            placeholder="( opsional )">
+        </div>
+        <div class="form-group">
+            <label>Catatan Tambahan</label>
+            <textarea id="inputCatatan" rows="3" placeholder="Tulis catatan jika ada...
+            ( opsional )"></textarea>
+        </div>
+        <div class="modal-harga" id="tampilHarga"></div>
+        <p class="peringatan">⚠️ Kirim Bukti Bayar Jika Sudah Melakukan Pembayaran Ke <a href="https://wa.me/6281314347426" target="_blank">Admin</a></p>
+        <button class="btn-kirim" onclick="kirimPesanan()">✅ Kirim Pesanan ke WhatsApp</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalRiwayat" onclick="if(event.target===this) tutupRiwayat()">
+    <div class="modal modal-riwayat">
+        <div class="modal-tutup">
+            <button class="btn-tutup" onclick="tutupRiwayat()">&times;</button>
+        </div>
+        <h3 class="modal-judul">📋 Riwayat Transaksi</h3>
+        <div id="daftarRiwayat">
+            <p style="text-align:center;color:#99ccff;">Memuat data...</p>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalLoginAdmin" onclick="if(event.target===this) tutupLoginAdmin()">
+    <div class="modal">
+        <div class="modal-tutup">
+            <button class="btn-tutup" onclick="tutupLoginAdmin()">&times;</button>
+        </div>
+        <h3 class="modal-judul">🔐 Login Admin</h3>
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="inputUserAdmin" placeholder="Masukkan username...">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="inputPassAdmin" placeholder="Masukkan password...">
+        </div>
+        <button class="btn-kirim" onclick="cekLoginAdmin()">Masuk</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalAdmin" onclick="if(event.target===this) tutupAdmin()">
+    <div class="modal modal-admin">
+        <div class="modal-tutup">
+            <button class="btn-tutup" onclick="tutupAdmin()">&times;</button>
+        </div>
+        <h3 class="modal-judul">⚙️ Panel Admin</h3>
+        <button class="btn-logout" onclick="logoutAdmin()">🚪 Logout</button>
+        <div id="daftarAdmin">
+            <p style="text-align:center;color:#99ccff;">Memuat data...</p>
+        </div>
+    </div>
+</div>
+
+
+<script>
+// ====== PENGATURAN ======
+const JSONBIN_BIN_ID = "6a9d3fe4f5f4af5e2970ddf8";
+const JSONBIN_API_KEY = "$2a$10$aqLMYkJqWm8.WylItNJhZegtxIDmOmKjkiUIbiD4N8e0.A/0rc0/C";
+const BASE_URL = "https://api.jsonbin.io/v3/b";
+const ADMIN_WA = "6281314347426";
+
+// 🔐 Ubah username & password admin di sini!
+const ADMIN_USER = "Yobsz";
+const ADMIN_PASS = "YobszStoreVIP14";
+
+let produkDipilih = "";
+let hargaDipilih = "";
+let menuTerbuka = false;
+let adminTerlogin = false;
+
+function tampilNotif(pesan, jenis = 'sukses') {
+    const notif = document.getElementById('notif');
+    notif.textContent = pesan;
+    notif.className = 'notif ' + jenis;
+    notif.classList.add('tampil');
+    clearTimeout(window._timerNotif);
+    window._timerNotif = setTimeout(() => {
+        notif.classList.remove('tampil');
+    }, 3000);
+}
+
+function toggleMenu() {
+    menuTerbuka = !menuTerbuka;
+    document.getElementById('menuToggle').classList.toggle('buka', menuTerbuka);
+    document.getElementById('menuDropdown').classList.toggle('buka', menuTerbuka);
+}
+document.addEventListener('click', e => {
+    const wrapper = document.querySelector('.menu-wrapper');
+    if (!wrapper.contains(e.target) && menuTerbuka) {
+        menuTerbuka = false;
+        document.getElementById('menuToggle').classList.remove('buka');
+        document.getElementById('menuDropdown').classList.remove('buka');
+    }
+});
+
+function scrollKeProduk() {
+    if (menuTerbuka) toggleMenu();
+    document.getElementById('bagianProduk').scrollIntoView({ behavior: 'smooth' });
+}
+function bukaQRISModal() {
+    if (menuTerbuka) toggleMenu();
+    document.getElementById('modalQRIS').classList.add('buka');
+    document.body.style.overflow = 'hidden';
+}
+function tutupQRISModal() {
+    document.getElementById('modalQRIS').classList.remove('buka');
+    document.body.style.overflow = '';
+}
+
+function toggleKategori(el) {
+    el.nextElementSibling.classList.toggle('buka');
+}
+
+function bukaForm(produk, harga) {
+    produkDipilih = produk;
+    hargaDipilih = harga;
+    document.getElementById('tampilHarga').textContent = harga;
+    document.getElementById('modalForm').classList.add('buka');
+    document.body.style.overflow = 'hidden';
+}
+function tutupForm() {
+    document.getElementById('modalForm').classList.remove('buka');
+    document.body.style.overflow = '';
+    produkDipilih = hargaDipilih = '';
+    document.getElementById('inputNama').value = '';
+    document.getElementById('inputNomor').value = '';
+    document.getElementById('inputLink').value = '';
+    document.getElementById('inputCatatan').value = '';
+}
+
+async function kirimPesanan() {
+    const nama = document.getElementById('inputNama').value.trim();
+    const nomor = document.getElementById('inputNomor').value.trim();
+    const link = document.getElementById('inputLink').value.trim();
+
+if (!nama || !nomor) {
+    tampilNotif("Nama dan Nomor WhatsApp wajib diisi!", 'peringatan');
+    return;
+}
+
+
+    const sukses = await tambahTransaksi(nama, produkDipilih, hargaDipilih);
+    if (!sukses) {
+        tampilNotif("Pesanan gagal disimpan, coba lagi!", 'error');
+        return;
+    }
+
+    const catatan = document.getElementById('inputCatatan').value.trim();
+    let pesan = `Halo Admin, saya mau order%0A%0A`;
+    pesan += `Nama: ${encodeURIComponent(nama)}%0A`;
+    pesan += `Nomor WA: ${encodeURIComponent(nomor)}%0A`;
+    pesan += `Link Akun: ${encodeURIComponent(link)}%0A`;
+    pesan += `Produk: ${encodeURIComponent(produkDipilih)}%0A`;
+    pesan += `Harga: ${encodeURIComponent(hargaDipilih)}%0A`;
+    if (catatan) pesan += `Catatan: ${encodeURIComponent(catatan)}%0A`;
+    pesan += `%0A⚠️ Jangan lupa kirim bukti bayar ya!`;
+
+   
+    window.open(`https://wa.me/${ADMIN_WA}?text=${pesan}`, '_blank');
+    tutupForm();
+    tampilNotif("Pesanan terkirim! Terima kasih 😊", 'sukses');
+}
+
+// ====== SISTEM RIWAYAT TRANSAKSI ======
+async function bukaRiwayat() {
+    if (menuTerbuka) toggleMenu();
+    document.getElementById('modalRiwayat').classList.add('buka');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('daftarRiwayat').innerHTML = '<p style="text-align:center;color:#99ccff;">Memuat data...</p>';
+    await muatRiwayat();
+}
+
+function tutupRiwayat() {
+    document.getElementById('modalRiwayat').classList.remove('buka');
+    document.body.style.overflow = '';
+}
+
+async function muatRiwayat() {
+    try {
+        const res = await fetch(`${BASE_URL}/${JSONBIN_BIN_ID}/latest`, {
+            headers: { "X-Master-Key": JSONBIN_API_KEY }
+        });
+        const data = await res.json();
+        const arr = data.record.data || [];
+        tampilkanRiwayat(arr, false);
+    } catch (err) {
+        console.error(err);
+        document.getElementById('daftarRiwayat').innerHTML = 
+            "<p style='text-align:center;color:#ff8888;'>Gagal memuat data. Cek Bin ID & API Key.</p>";
+    }
+}
+
+function tampilkanRiwayat(arr, isAdmin = false) {
+    const el = document.getElementById(isAdmin ? 'daftarAdmin' : 'daftarRiwayat');
+    if (arr.length === 0) {
+        el.innerHTML = "<p style='text-align:center;color:#99ccff;'>Belum ada transaksi.</p>";
+        return;
+    }
+    el.innerHTML = arr.map((item, idx) => {
+        const statusClass = item.status === 'sukses' ? 'status-sukses' : 
+                           item.status === 'gagal' ? 'status-gagal' : 'status-pending';
+        const statusText = item.status === 'sukses' ? '✅ Sukses' : 
+                          item.status === 'gagal' ? '❌ Gagal' : '⏳ Pending';
+        let html = `
+        <div class="riwayat-item">
+            <div class="riwayat-baris"><span class="riwayat-label">Nama:</span> <span class="riwayat-nilai">${item.nama}</span></div>
+            <div class="riwayat-baris"><span class="riwayat-label">Produk:</span> <span class="riwayat-nilai">${item.produk}</span></div>
+            <div class="riwayat-baris"><span class="riwayat-label">Harga:</span> <span class="riwayat-nilai">${item.harga}</span></div>
+            <div class="riwayat-baris"><span class="riwayat-label">Status:</span> <span class="riwayat-nilai ${statusClass}">${statusText}</span></div>
+            <div class="riwayat-baris"><span class="riwayat-label">Waktu:</span> <span class="riwayat-nilai">${item.waktu}</span></div>
+        `;
+        if (isAdmin) {
+    html += `
+    <div class="riwayat-baris">
+        <span class="riwayat-label">Ubah:</span>
+        <select class="status-pilih" onchange="ubahStatus(${idx}, this.value)">
+            <option value="pending" ${item.status==='pending'?'selected':''}>⏳ Pending</option>
+            <option value="sukses" ${item.status==='sukses'?'selected':''}>✅ Sukses</option>
+            <option value="gagal" ${item.status==='gagal'?'selected':''}>❌ Gagal</option>
+        </select>
+    </div>
+    <div class="riwayat-baris">
+        <button style="background:#ff4444; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; margin-top:4px;" 
+                onclick="hapusTransaksi(${idx})">🗑️ Hapus</button>
+    </div>`;
+}
+
+        html += `</div>`;
+        return html;
+    }).join('');
+}
+
+async function tambahTransaksi(nama, produk, harga) {
+    try {
+        const res = await fetch(`${BASE_URL}/${JSONBIN_BIN_ID}/latest`, {
+            headers: { "X-Master-Key": JSONBIN_API_KEY }
+        });
+        const data = await res.json();
+        const arr = data.record.data || [];
+        arr.unshift({
+            nama,
+            produk,
+            harga,
+            status: 'pending',
+            waktu: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })
+        });
+
+        await fetch(`${BASE_URL}/${JSONBIN_BIN_ID}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                "X-Master-Key": JSONBIN_API_KEY
+            },
+            body: JSON.stringify({ data: arr })
+        });
+        return true;
+    } catch (err) {
+        console.error(err);
+        return false;
+    }
+}
+
+// ====== SISTEM LOGIN ADMIN ======
+function bukaLoginAdmin() {
+    if (menuTerbuka) toggleMenu();
+    document.getElementById('modalLoginAdmin').classList.add('buka');
+    document.body.style.overflow = 'hidden';
+}
+function tutupLoginAdmin() {
+    document.getElementById('modalLoginAdmin').classList.remove('buka');
+    document.body.style.overflow = '';
+    document.getElementById('inputUserAdmin').value = '';
+    document.getElementById('inputPassAdmin').value = '';
+}
+
+function cekLoginAdmin() {
+    const user = document.getElementById('inputUserAdmin').value.trim();
+    const pass = document.getElementById('inputPassAdmin').value.trim();
+    
+    if (user === ADMIN_USER && pass === ADMIN_PASS) {
+        adminTerlogin = true;
+        tutupLoginAdmin();
+        bukaPanelAdmin();
+    } else {
+        tampilNotif("Username atau password salah!", 'error');
+    }
+}
+
+async function bukaPanelAdmin() {
+    document.getElementById('modalAdmin').classList.add('buka');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('daftarAdmin').innerHTML = '<p style="text-align:center;color:#99ccff;">Memuat data...</p>';
+    await muatDataAdmin();
+}
+
+function tutupAdmin() {
+    document.getElementById('modalAdmin').classList.remove('buka');
+    document.body.style.overflow = '';
+}
+
+function logoutAdmin() {
+    adminTerlogin = false;
+    tutupAdmin();
+    tampilNotif("Berhasil logout!", 'sukses');
+}
+
+async function muatDataAdmin() {
+    try {
+        const res = await fetch(`${BASE_URL}/${JSONBIN_BIN_ID}/latest`, {
+            headers: { "X-Master-Key": JSONBIN_API_KEY }
+        });
+        const data = await res.json();
+        const arr = data.record.data || [];
+        tampilkanRiwayat(arr, true);
+    } catch (err) {
+        console.error(err);
+        document.getElementById('daftarAdmin').innerHTML = 
+            "<p style='text-align:center;color:#ff8888;'>Gagal memuat data.</p>";
+    }
+}
+
+async function ubahStatus(index, statusBaru) {
+    try {
+        const res = await fetch(`${BASE_URL}/${JSONBIN_BIN_ID}/latest`, {
+            headers: { "X-Master-Key": JSONBIN_API_KEY }
+        });
+        const data = await res.json();
+        const arr = data.record.data || [];
+        
+        if (arr[index]) {
+            arr[index].status = statusBaru;
+            await fetch(`${BASE_URL}/${JSONBIN_BIN_ID}`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Master-Key": JSONBIN_API_KEY
+                },
+                body: JSON.stringify({ data: arr })
+            });
+            tampilNotif("Status diperbarui!", 'sukses');
+        }
+    } catch (err) {
+        console.error(err);
+        tampilNotif("Gagal ubah status!", 'error');
+    }
+}
+async function hapusTransaksi(index) {
+    if (!confirm('Yakin mau hapus transaksi ini?')) return;
+
+    try {
+        const res = await fetch(`${BASE_URL}/${JSONBIN_BIN_ID}/latest`, {
+            headers: { "X-Master-Key": JSONBIN_API_KEY }
+        });
+        const data = await res.json();
+        const arr = data.record.data || [];
+
+        // Hapus data di posisi index
+        arr.splice(index, 1);
+
+        // Simpan ulang ke JSONBin
+        await fetch(`${BASE_URL}/${JSONBIN_BIN_ID}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                "X-Master-Key": JSONBIN_API_KEY
+            },
+            body: JSON.stringify({ data: arr })
+        });
+
+        tampilNotif("Transaksi berhasil dihapus!", 'sukses');
+        // Muat ulang data panel admin
+        muatDataAdmin();
+    } catch (err) {
+        console.error(err);
+        tampilNotif("Gagal menghapus!", 'error');
+    }
+}
+
+</script>
+
+</body>
+</html>
