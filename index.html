@@ -495,7 +495,13 @@
             transform: translateX(-50%) translateY(0);
         }
         
-
+            .typing-text {
+  color: var(--biru-terang);
+  font-size: 1rem;
+  min-height: 1px; /* biar ganti kalimat tidak lompat */
+  padding-right: 5px;
+  display: inline-block;
+            }
 
     </style>
 </head>
@@ -523,6 +529,7 @@
     <img src="logo.jpg" alt="Logo YOBSZ STORE" class="logo-img">
     <h1 class="judul">YOBSZ STORE</h1>
     <p class="subjudul">Semua Yang Dijual Yobsz — Aman & Terpercaya ✅</p>
+     <p class="typing-text" id="typingText"></p>
 </div>
 
 <div class="container" id="bagianProduk">
@@ -1256,6 +1263,52 @@ async function hapusTransaksi(index) {
     }
 }
 
+// Daftar kalimat yang mau ditampilkan bergantian
+const kalimat = [
+  "Suntik Saluran WA Proses Cepat",
+  "Suntik Followers IG Proses Cepat",
+  "Semua Yang Dijual Yobsz",
+  "Yobsz 100% Amanah",
+  "Trx Dengan Yobsz 100% Aman",
+  "Terima Kasih Yang Udh Transaksi Dengan Yobsz😉",
+];
+
+let indexKalimat = 0;
+let indexHuruf = 0;
+let hapus = false;
+const kecepatan = 50; // ms, lebih kecil = lebih cepat
+
+function ketikTeks() {
+  const sekarang = kalimat[indexKalimat];
+  const el = document.getElementById("typingText");
+
+  if (!hapus) {
+    // Mengetik huruf satu per satu
+    el.textContent = sekarang.slice(0, indexHuruf + 1);
+    indexHuruf++;
+    // Kalau sudah selesai mengetik → tunggu, lalu mulai hapus
+    if (indexHuruf === sekarang.length) {
+      hapus = true;
+      setTimeout(ketikTeks, 2000); // jeda 2 detik sebelum hapus
+      return;
+    }
+  } else {
+    // Menghapus huruf satu per satu
+    el.textContent = sekarang.slice(0, indexHuruf - 1);
+    indexHuruf--;
+    // Kalau sudah bersih → ganti kalimat berikutnya
+    if (indexHuruf === 0) {
+      hapus = false;
+      indexKalimat = (indexKalimat + 1) % kalimat.length; // loop otomatis
+    }
+  }
+
+  setTimeout(ketikTeks, kecepatan);
+}
+
+// Mulai jalankan saat halaman siap
+window.onload = ketikTeks;
+ 
 </script>
 
 </body>
